@@ -134,7 +134,6 @@ class Trainer(BaseTrainer):
         batch = self.move_batch_to_device(batch, self.device)
         batch["logits"] = self.model(batch["audio"])
         batch["loss"] = self.criterion(batch["logits"], batch["target"]) / self.grad_accum_iters
-        print(batch["loss"], batch["logits"].shape, batch["audio"].shape)
         if is_train:
             batch["loss"].backward()
             if (batch_idx + 1) % self.grad_accum_iters == 0 or (batch_idx + 1) == self.len_epoch:
