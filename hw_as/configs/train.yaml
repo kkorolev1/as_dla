@@ -5,7 +5,7 @@ optimizer:
   _target_: torch.optim.Adam
   lr: 0.0001
 
-batch_size: 5
+batch_size: 32
 num_samples: 64000
 
 lr_scheduler:
@@ -56,18 +56,24 @@ data:
         protocol_path: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt
         audio_dir: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_train/flac
         num_samples: ${num_samples}
-        limit: 100
   val:
     batch_size: ${batch_size}
     num_workers: 5
     datasets:
       - _target_: hw_as.datasets.ASVspoofDataset
-        protocol_path: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt
-        audio_dir: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_train/flac
+        protocol_path: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt
+        audio_dir: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_dev/flac
         num_samples: ${num_samples}
-        limit: 100
+  test:
+    batch_size: ${batch_size}
+    num_workers: 5
+    datasets:
+      - _target_: hw_as.datasets.ASVspoofDataset
+        protocol_path: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt
+        audio_dir: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_eval/flac
+        num_samples: ${num_samples}
 trainer: 
-  epochs: 50
+  epochs: 100
   save_dir: "saved/"
   save_period: 5
   verbosity: 2
@@ -75,8 +81,8 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "one_batch_test"
-  len_epoch: 100
+  wandb_run_name: "first_try"
+  len_epoch: null
   grad_norm_clip: 50
 
 wandb_key: 91898ab676432e8d5689a2ce4a88f7131dc1e45c
