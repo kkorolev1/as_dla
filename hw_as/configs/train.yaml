@@ -2,15 +2,16 @@ name: "train"
 n_gpu: 1
 
 optimizer:
-  _target_: torch.optim.Adam
+  _target_: torch.optim.AdamW
   lr: 0.0001
+  weight_decay: 1e-5
 
 batch_size: 32
 num_samples: 64000
 
 lr_scheduler:
-  _target_: torch.optim.lr_scheduler.ConstantLR
-  factor: 1
+  _target_: torch.optim.lr_scheduler.ExponentialLR
+  gamma: 0.99999
 
 sinc_out_channels: 128
 res1_out_channels: 20
@@ -82,7 +83,7 @@ trainer:
   visualize: "wandb"
   wandb_project: "as_project"
   wandb_run_name: "first_try"
-  len_epoch: null
+  len_epoch: 5000
   grad_norm_clip: 50
 
 wandb_key: 91898ab676432e8d5689a2ce4a88f7131dc1e45c
