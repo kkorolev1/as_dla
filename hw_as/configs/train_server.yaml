@@ -53,17 +53,25 @@ data:
     num_workers: 5
     datasets:
       - _target_: hw_as.datasets.ASVspoofDataset
-        protocol_path: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt
-        audio_dir: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_train/flac
+        protocol_path: data/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt
+        audio_dir: data/LA/ASVspoof2019_LA_train/flac
         num_samples: ${num_samples}
-        limit: 100
   val:
     batch_size: ${batch_size}
     num_workers: 5
     datasets:
       - _target_: hw_as.datasets.ASVspoofDataset
-        protocol_path: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt
-        audio_dir: /kaggle/input/asvpoof-2019-dataset/LA/LA/ASVspoof2019_LA_train/flac
+        protocol_path: data/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt
+        audio_dir: data/LA/ASVspoof2019_LA_dev/flac
+        num_samples: ${num_samples}
+        limit: 100
+  test:
+    batch_size: ${batch_size}
+    num_workers: 5
+    datasets:
+      - _target_: hw_as.datasets.ASVspoofDataset
+        protocol_path: data/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt
+        audio_dir: data/LA/ASVspoof2019_LA_eval/flac
         num_samples: ${num_samples}
         limit: 100
 trainer: 
