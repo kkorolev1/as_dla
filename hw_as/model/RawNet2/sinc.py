@@ -34,11 +34,10 @@ class SincConv_fast(nn.Module):
     @staticmethod
     def to_hz(mel):
         return 700 * (10 ** (mel / 2595) - 1)
-
+    
     def __init__(self, out_channels, kernel_size, sample_rate=16000, in_channels=1,
                  stride=1, padding=0, dilation=1, bias=False, groups=1, min_low_hz=50, min_band_hz=50):
-
-        super(SincConv_fast,self).__init__()
+        super().__init__()
 
         if in_channels != 1:
             #msg = (f'SincConv only support one input channel '
@@ -91,8 +90,7 @@ class SincConv_fast(nn.Module):
         # (1, kernel_size/2)
         n = (self.kernel_size - 1) / 2.0
         self.n_ = 2*math.pi*torch.arange(-n, 0).view(1, -1) / self.sample_rate # Due to symmetry, I only need half of the time axes
-
-
+    
     def forward(self, waveforms):
         """
         Parameters
@@ -134,17 +132,18 @@ class SincConv_fast(nn.Module):
         return F.conv1d(waveforms, self.filters, stride=self.stride,
                         padding=self.padding, dilation=self.dilation,
                          bias=None, groups=1)
-
+    
      
 class SincFilters(nn.Module):
     def __init__(self, **config):
         super().__init__()
+        self.conv = SincConv_fast(**config)
         self.sequential = nn.Sequential(
-            SincConv_fast(**config),
             nn.MaxPool1d(3),
             nn.BatchNorm1d(config["out_channels"]),
             nn.LeakyReLU()
         )
         
     def forward(self, x):
+        x = self.conv(x).abs()
         return self.sequential(x)
