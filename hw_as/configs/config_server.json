@@ -1,0 +1,96 @@
+{
+  "name": "default_config",
+  "n_gpu": 0,
+  "arch": {
+    "type": "FastSpeech2",
+    "args": {
+      "PAD": 0,
+      "decoder_conv1d_filter_size": 1024,
+      "decoder_dim": 256,
+      "decoder_head": 2,
+      "decoder_n_layer": 4,
+      "dropout": 0.1,
+      "duration_predictor_filter_size": 256,
+      "duration_predictor_kernel_size": 3,
+      "encoder_conv1d_filter_size": 1024,
+      "encoder_dim": 256,
+      "encoder_head": 2,
+      "encoder_n_layer": 4,
+      "energy_predictor_filter_size": 256,
+      "energy_predictor_kernel_size": 3,
+      "fft_conv1d_kernel": [
+        9,
+        1
+      ],
+      "fft_conv1d_padding": [
+        4,
+        0
+      ],
+      "max_energy": 91.4197,
+      "max_pitch": 887.2688230720693,
+      "max_seq_len": 3000,
+      "min_energy": 15.023643,
+      "min_pitch": 59.913448819015024,
+      "num_bins": 256,
+      "num_mels": 80,
+      "pitch_predictor_filter_size": 256,
+      "pitch_predictor_kernel_size": 3,
+      "vocab_size": 300,
+      "attn_use_prelayer_norm": false
+    }
+  },
+  "data": {
+    "train": {
+      "batch_size": 5,
+      "num_workers": 5,
+      "datasets": [
+        {
+          "type": "LJSpeechDataset",
+          "args": {
+            "data_path": "data/train.txt",
+            "mel_ground_truth": "data/mels",
+            "alignment_path": "data/alignments",
+            "pitch_path": "data/pitch",
+            "energy_path": "data/energy",
+            "text_cleaners": [
+              "english_cleaners"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "optimizer": {
+    "type": "AdamW",
+    "args": {
+      "lr": 1e-3,
+      "weight_decay": 1e-6
+    }
+  },
+  "lr_scheduler": {
+    "type": "OneCycleLR",
+    "args": {
+      "anneal_strategy": "cos",
+      "max_lr": 1e-3,
+      "pct_start": 0.1
+    }
+  },
+  "loss": {
+    "type": "FastSpeech2Loss",
+    "args": {}
+  },
+  "metrics": [],
+  "trainer": {
+    "epochs": 80,
+    "save_dir": "saved/",
+    "save_period": 5,
+    "verbosity": 2,
+    "monitor": "min val_loss",
+    "early_stop": 100,
+    "visualize": "wandb",
+    "wandb_project": "tts_project",
+    "wandb_run_name": "one_batch_test",
+    "len_epoch": 3,
+    "grad_norm_clip": 2
+  }
+}

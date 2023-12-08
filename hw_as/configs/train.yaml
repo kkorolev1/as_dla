@@ -1,0 +1,82 @@
+name: "train"
+n_gpu: 1
+
+optimizer:
+  _target_: torch.optim.Adam
+  lr: 0.0001
+
+batch_size: 5
+num_samples: 64000
+
+lr_scheduler:
+  _target_: torch.optim.lr_scheduler.ConstantLR
+  factor: 1
+
+sinc_filter_length: 1024
+res1_filter_length: 20
+res2_filter_length: 128
+
+arch:
+  _target_: hw_as.model.RawNet2
+  sinc_config:
+    out_channels: ${sinc_filter_length}
+    kernel_size: 129
+    stride: 1
+    min_low_hz: 0
+    min_band_hz: 0
+  res1_config:
+    in_channels: ${sinc_filter_length}
+    out_channels: ${res1_filter_length}
+    num_layers: 2
+  res2_config:
+    in_channels: ${res1_filter_length}
+    out_channels: ${res2_filter_length}
+    num_layers: 4
+  gru_config:
+    input_size: ${res2_filter_length}
+    hidden_size: 1024
+    num_layers: 3
+    batch_first: true
+
+metrics:
+  - _target_: hw_as.metric.EER
+    name: EER
+    epoch_level: true
+
+loss:
+  _target_: hw_as.loss.CrossEntropyLossWrapper
+  weight: [1, 9]
+
+data:
+  train:
+    batch_size: ${batch_size}
+    num_workers: 5
+    datasets:
+      - _target_: hw_as.datasets.ASVspoofDataset
+        protocol_path: data/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt
+        audio_dir: data/LA/ASVspoof2019_LA_dev/flac
+        num_samples: ${num_samples}
+        limit: 100
+  val:
+    batch_size: ${batch_size}
+    num_workers: 5
+    datasets:
+      - _target_: hw_as.datasets.ASVspoofDataset
+        protocol_path: data/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt
+        audio_dir: data/LA/ASVspoof2019_LA_dev/flac
+        num_samples: ${num_samples}
+        limit: 100
+trainer: 
+  epochs: 50
+  save_dir: "saved/"
+  save_period: 5
+  verbosity: 2
+  monitor: "min val_loss"
+  early_stop: 100
+  visualize: "wandb"
+  wandb_project: "as_project"
+  wandb_run_name: "one_batch_test"
+  len_epoch: 100
+  grad_norm_clip: 50
+
+wandb_key: 91898ab676432e8d5689a2ce4a88f7131dc1e45c
