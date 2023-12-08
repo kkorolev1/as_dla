@@ -132,14 +132,11 @@ class Trainer(BaseTrainer):
 
     def process_batch(self, batch, batch_idx, is_train: bool, metrics: MetricTracker):
         batch = self.move_batch_to_device(batch, self.device)
-        print("PRE FORWARD")
         batch["logits"] = self.model(batch["audio"])
-        print("POST FORWARD")
         batch["loss"] = self.criterion(batch["logits"], batch["target"]) / self.grad_accum_iters
-        print("POST LOSS")
+        print(batch["loss"], batch["logits"].shape, batch["audio"].shape)
         if is_train:
             batch["loss"].backward()
-            print("POST BACKWARD")
             if (batch_idx + 1) % self.grad_accum_iters == 0 or (batch_idx + 1) == self.len_epoch:
                 self._clip_grad_norm()
                 self.optimizer.step()
