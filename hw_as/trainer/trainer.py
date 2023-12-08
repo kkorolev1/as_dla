@@ -175,13 +175,13 @@ class Trainer(BaseTrainer):
                 logits_list.append(batch["logits"])
                 target_list.append(batch["target"])
             self.writer.set_step(epoch * self.len_epoch, part)
-            self._log_scalars(self.evaluation_metrics)
         
         logits = torch.cat(logits_list)
         target = torch.cat(target_list)
         for met in self.metrics:
             if met.epoch_level:
                 self.evaluation_metrics.update(met.name, met(logits=logits, target=target))
+        self._log_scalars(self.evaluation_metrics)
         return self.evaluation_metrics.result()
 
     def _progress(self, batch_idx):
