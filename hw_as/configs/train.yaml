@@ -4,14 +4,14 @@ n_gpu: 1
 optimizer:
   _target_: torch.optim.AdamW
   lr: 0.0001
-  weight_decay: 1e-5
+  weight_decay: 0.0001
 
 batch_size: 32
 num_samples: 64000
 
 lr_scheduler:
   _target_: torch.optim.lr_scheduler.ExponentialLR
-  gamma: 0.99999
+  gamma: 0.999999
 
 sinc_out_channels: 128
 res1_out_channels: 20
@@ -23,8 +23,8 @@ arch:
     out_channels: ${sinc_out_channels}
     kernel_size: 1024
     stride: 1
-    min_low_hz: 0
-    min_band_hz: 0
+    min_low_hz: 50
+    min_band_hz: 50
   res1_config:
     in_channels: ${sinc_out_channels}
     out_channels: ${res1_out_channels}
@@ -82,7 +82,7 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "first_try"
+  wandb_run_name: "min_low_default"
   len_epoch: 5000
   grad_norm_clip: 50
 
