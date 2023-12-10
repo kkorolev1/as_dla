@@ -145,5 +145,5 @@ class SincFilters(nn.Module):
         )
         
     def forward(self, x):
-        x = self.conv(x).abs()
+        x = self.conv(x)
         return self.sequential(x)

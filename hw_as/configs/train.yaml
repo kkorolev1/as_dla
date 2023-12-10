@@ -11,7 +11,7 @@ num_samples: 64000
 
 lr_scheduler:
   _target_: torch.optim.lr_scheduler.ExponentialLR
-  gamma: 0.999999
+  gamma: 1
 
 sinc_out_channels: 128
 res1_out_channels: 20
@@ -82,8 +82,8 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "min_low_default"
-  len_epoch: 5000
+  wandb_run_name: "no_min_no_abs"
+  len_epoch: 3000
   grad_norm_clip: 50
 
 wandb_key: 91898ab676432e8d5689a2ce4a88f7131dc1e45c
