@@ -23,11 +23,16 @@ class FMS(nn.Module):
 
 
 class ResLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, negative_slope=0.01):
+    def __init__(self, in_channels, out_channels, negative_slope=0.3, is_first=False):
         super().__init__()
+        if not is_first:
+            self.head = nn.Sequential(
+                nn.BatchNorm1d(in_channels),
+                nn.LeakyReLU(negative_slope)
+            )
+        else:
+            self.head = nn.Identity()
         self.sequential = nn.Sequential(
-            nn.BatchNorm1d(in_channels),
-            nn.LeakyReLU(negative_slope),
             nn.Conv1d(in_channels, out_channels, 3, padding=1),
             nn.BatchNorm1d(out_channels),
             nn.LeakyReLU(negative_slope),
@@ -43,16 +48,17 @@ class ResLayer(nn.Module):
         )
         
     def forward(self, x):
+        x = self.head(x)
         x = self.sequential(x) + self.reproj(x)
         x = self.tail(x)
         return x
     
     
 class ResBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, num_layers, negative_slope=0.01):
+    def __init__(self, in_channels, out_channels, num_layers, negative_slope=0.3):
         super().__init__()
         assert num_layers >= 1
-        self.first = ResLayer(in_channels, out_channels, negative_slope)
+        self.first = ResLayer(in_channels, out_channels, negative_slope, is_first=True)
         self.tail = nn.ModuleList([
             ResLayer(out_channels, out_channels, negative_slope)
             for _ in range(num_layers - 1)

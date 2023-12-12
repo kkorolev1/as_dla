@@ -141,11 +141,11 @@ class SincFilter(nn.Module):
         self.sequential = nn.Sequential(
             nn.MaxPool1d(3),
             nn.BatchNorm1d(config["out_channels"]),
-            nn.LeakyReLU()
+            nn.LeakyReLU(0.3)
         )
-        for param in self.conv.parameters():
-            param.requires_grad_(False)
+        # for param in self.conv.parameters():
+        #     param.requires_grad_(False)
         
     def forward(self, x):
-        x = self.conv(x).abs()
+        x = self.conv(x)
         return self.sequential(x)
