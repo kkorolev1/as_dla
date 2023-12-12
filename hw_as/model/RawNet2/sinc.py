@@ -134,7 +134,7 @@ class SincConv_fast(nn.Module):
                          bias=None, groups=1)
     
      
-class SincFilters(nn.Module):
+class SincFilter(nn.Module):
     def __init__(self, **config):
         super().__init__()
         self.conv = SincConv_fast(**config)
@@ -143,7 +143,9 @@ class SincFilters(nn.Module):
             nn.BatchNorm1d(config["out_channels"]),
             nn.LeakyReLU()
         )
+        for param in self.conv.parameters():
+            param.requires_grad_(False)
         
     def forward(self, x):
-        x = self.conv(x)
+        x = self.conv(x).abs()
         return self.sequential(x)

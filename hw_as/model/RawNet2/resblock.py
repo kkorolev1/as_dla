@@ -5,15 +5,21 @@ import math
 import numpy as np
 
 class FMS(nn.Module):
-    def __init__(self, num_channels):
+    def __init__(self, num_channels, add=True, mul=True):
         super().__init__()
         self.linear = nn.Linear(num_channels, num_channels)
         self.act = nn.Sigmoid()
+        self.add = add
+        self.mul = mul
         
     def forward(self, x):
-        scales = x.mean(dim=-1)
-        scales = self.act(self.linear(scales))
-        return x * scales.unsqueeze(-1)
+        scales = F.adaptive_avg_pool1d(x, 1).reshape(x.shape[0], -1)
+        scales = self.act(self.linear(scales)).reshape(x.shape[0], x.shape[1], -1)
+        if self.mul:
+            x = x * scales
+        if self.add:
+            x = x + scales
+        return x
 
 
 class ResLayer(nn.Module):
@@ -27,7 +33,10 @@ class ResLayer(nn.Module):
             nn.LeakyReLU(negative_slope),
             nn.Conv1d(out_channels, out_channels, 3, padding=1)
         )
-        self.reproj = nn.Conv1d(in_channels, out_channels, 1)
+        if in_channels != out_channels:
+            self.reproj = nn.Conv1d(in_channels, out_channels, 1)
+        else:
+            self.reproj = nn.Identity()
         self.tail = nn.Sequential(
             nn.MaxPool1d(3),
             FMS(out_channels)

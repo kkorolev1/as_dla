@@ -23,8 +23,8 @@ arch:
     out_channels: ${sinc_out_channels}
     kernel_size: 1024
     stride: 1
-    min_low_hz: 50
-    min_band_hz: 50
+    min_low_hz: 0
+    min_band_hz: 0
   res1_config:
     in_channels: ${sinc_out_channels}
     out_channels: ${res1_out_channels}
