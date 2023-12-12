@@ -82,7 +82,7 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "no_min_no_abs"
+  wandb_run_name: "petr_hints"
   len_epoch: 3000
   grad_norm_clip: 50
 
