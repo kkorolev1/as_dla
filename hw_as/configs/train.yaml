@@ -29,10 +29,12 @@ arch:
     in_channels: ${sinc_out_channels}
     out_channels: ${res1_out_channels}
     num_layers: 2
+    sep_first: true
   res2_config:
     in_channels: ${res1_out_channels}
     out_channels: ${res2_out_channels}
     num_layers: 4
+    sep_first: false
   gru_config:
     input_size: ${res2_out_channels}
     hidden_size: 1024

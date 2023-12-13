@@ -55,10 +55,10 @@ class ResLayer(nn.Module):
     
     
 class ResBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, num_layers, negative_slope=0.3):
+    def __init__(self, in_channels, out_channels, num_layers, sep_first=False, negative_slope=0.3):
         super().__init__()
         assert num_layers >= 1
-        self.first = ResLayer(in_channels, out_channels, negative_slope, is_first=True)
+        self.first = ResLayer(in_channels, out_channels, negative_slope, is_first=sep_first)
         self.tail = nn.ModuleList([
             ResLayer(out_channels, out_channels, negative_slope)
             for _ in range(num_layers - 1)
