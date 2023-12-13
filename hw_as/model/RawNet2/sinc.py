@@ -143,9 +143,9 @@ class SincFilter(nn.Module):
             nn.BatchNorm1d(config["out_channels"]),
             nn.LeakyReLU(0.3)
         )
-        # for param in self.conv.parameters():
-        #     param.requires_grad_(False)
+        for param in self.conv.parameters():
+            param.requires_grad_(False)
         
     def forward(self, x):
-        x = self.conv(x)
+        x = self.conv(x).abs()
         return self.sequential(x)
