@@ -20,13 +20,13 @@ res2_out_channels: 128
 arch:
   _target_: hw_as.model.RawNet2
   sinc_config:
-    out_channels: ${sinc_out_channels}
+    out_channels: ${res1_out_channels}
     kernel_size: 1024
     stride: 1
     min_low_hz: 0
     min_band_hz: 0
   res1_config:
-    in_channels: ${sinc_out_channels}
+    in_channels: ${res1_out_channels}
     out_channels: ${res1_out_channels}
     num_layers: 2
     sep_first: true
