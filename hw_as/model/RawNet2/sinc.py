@@ -147,5 +147,5 @@ class SincFilter(nn.Module):
         #     param.requires_grad_(False)
         
     def forward(self, x):
-        x = self.conv(x).abs()
+        x = self.conv(x)
         return self.sequential(x)
