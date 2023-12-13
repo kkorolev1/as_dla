@@ -13,7 +13,7 @@ lr_scheduler:
   _target_: torch.optim.lr_scheduler.ExponentialLR
   gamma: 1
 
-sinc_out_channels: 128
+
 res1_out_channels: 20
 res2_out_channels: 128
 
@@ -84,7 +84,7 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "no_abs_norm_train_sinc"
+  wandb_run_name: "S2"
   len_epoch: 3000
   grad_norm_clip: 50
 

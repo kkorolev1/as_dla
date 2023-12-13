@@ -69,10 +69,15 @@ class SincConv_fast(nn.Module):
         low_hz = 30
         high_hz = self.sample_rate / 2 - (self.min_low_hz + self.min_band_hz)
 
-        mel = np.linspace(self.to_mel(low_hz),
-                          self.to_mel(high_hz),
-                          self.out_channels + 1)
-        hz = self.to_hz(mel)
+        # S1
+        # mel = np.linspace(self.to_mel(low_hz),
+        #                   self.to_mel(high_hz),
+        #                   self.out_channels + 1)
+        # hz = self.to_hz(mel)
+        # S2
+        hz = np.linspace(low_hz,
+                         high_hz,
+                         self.out_channels + 1)
 
 
         # filter lower frequency (out_channels, 1)
