@@ -30,7 +30,7 @@ class RawNet2(BaseModel):
         x = self.gru(x.transpose(1, 2))[0][:, -1, :]
         x = self.linear(x)
         norm = x.norm(p=2, dim=1, keepdim=True) / 10
-        x /= norm
+        x = x / norm
         x = self.head(x)
         return x
         
