@@ -2,9 +2,8 @@ name: "train"
 n_gpu: 1
 
 optimizer:
-  _target_: torch.optim.AdamW
+  _target_: torch.optim.Adam
   lr: 0.0001
-  weight_decay: 0.0001
 
 batch_size: 32
 num_samples: 64000
@@ -48,7 +47,7 @@ metrics:
 
 loss:
   _target_: hw_as.loss.CrossEntropyLossWrapper
-  weight: [1, 1]
+  weight: [1, 9]
 
 data:
   train:
@@ -84,7 +83,7 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "S1_no_weighted_ce"
+  wandb_run_name: "S1_no_wd"
   len_epoch: 3000
   grad_norm_clip: 50
 
