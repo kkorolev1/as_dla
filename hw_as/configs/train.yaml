@@ -38,7 +38,7 @@ arch:
   gru_config:
     input_size: ${res2_out_channels}
     hidden_size: 1024
-    num_layers: 3
+    num_layers: 1
     batch_first: true
 
 metrics:
