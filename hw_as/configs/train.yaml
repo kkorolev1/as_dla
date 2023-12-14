@@ -14,14 +14,14 @@ lr_scheduler:
   gamma: 1
 
 
-res1_out_channels: 20
-res2_out_channels: 128
+res1_out_channels: 128
+res2_out_channels: 512
 
 arch:
   _target_: hw_as.model.RawNet2
   sinc_config:
     out_channels: ${res1_out_channels}
-    kernel_size: 1024
+    kernel_size: 129
     stride: 1
     min_low_hz: 0
     min_band_hz: 0
@@ -38,7 +38,7 @@ arch:
   gru_config:
     input_size: ${res2_out_channels}
     hidden_size: 1024
-    num_layers: 1
+    num_layers: 3
     batch_first: true
 
 metrics:
