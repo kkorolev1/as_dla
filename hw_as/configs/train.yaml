@@ -84,7 +84,7 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "S1_with_abs"
+  wandb_run_name: "S1_channels_and_kernel_size_ablation"
   len_epoch: 3000
   grad_norm_clip: 50
 
