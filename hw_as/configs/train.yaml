@@ -14,14 +14,14 @@ lr_scheduler:
   gamma: 1
 
 
-res1_out_channels: 128
-res2_out_channels: 512
+res1_out_channels: 20
+res2_out_channels: 128
 
 arch:
   _target_: hw_as.model.RawNet2
   sinc_config:
     out_channels: ${res1_out_channels}
-    kernel_size: 129
+    kernel_size: 1024
     stride: 1
     min_low_hz: 0
     min_band_hz: 0
@@ -48,7 +48,7 @@ metrics:
 
 loss:
   _target_: hw_as.loss.CrossEntropyLossWrapper
-  weight: [1, 9]
+  weight: [1, 1]
 
 data:
   train:
@@ -84,7 +84,7 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "S1_channels_and_kernel_size_ablation"
+  wandb_run_name: "S1_no_weighted_ce"
   len_epoch: 3000
   grad_norm_clip: 50
 
