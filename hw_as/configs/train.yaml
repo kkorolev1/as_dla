@@ -23,8 +23,8 @@ arch:
     out_channels: ${res1_out_channels}
     kernel_size: 1024
     stride: 1
-    min_low_hz: 50
-    min_band_hz: 50
+    min_low_hz: 0
+    min_band_hz: 0
   res1_config:
     in_channels: ${res1_out_channels}
     out_channels: ${res1_out_channels}
@@ -84,7 +84,7 @@ trainer:
   early_stop: 100
   visualize: "wandb"
   wandb_project: "as_project"
-  wandb_run_name: "S1_no_min0"
+  wandb_run_name: "final_model"
   len_epoch: 3000
   grad_norm_clip: 50
 
