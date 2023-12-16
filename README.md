@@ -3,6 +3,8 @@ Voice AntiSpoofing with RawNet2
 
 [Wandb Report](https://wandb.ai/kkorolev/as_project/reports/HW5--Vmlldzo2MjY5ODA3)
 
+[Checkpoint](https://disk.yandex.ru/d/SnU0Xcd3mu5NrQ)
+
 ## Installation guide
 
 ```shell
