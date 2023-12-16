@@ -1,0 +1,42 @@
+name: "test"
+n_gpu: 1
+
+batch_size: 32
+num_samples: 64000
+resume: as_checkpoint.pth
+audios: 
+  - as_examples/nv_audio1.wav
+  - as_examples/nv_audio2.wav
+  - as_examples/tts_audio1.wav
+  - as_examples/tts_audio2.wav
+  - as_examples/bonafide_gf.wav
+  - as_examples/blinorot_audio1.wav
+  - as_examples/blinorot_audio2.wav
+  - as_examples/blinorot_audio3.wav
+
+res1_out_channels: 20
+res2_out_channels: 128
+
+arch:
+  _target_: hw_as.model.RawNet2
+  sinc_config:
+    out_channels: ${res1_out_channels}
+    kernel_size: 1024
+    stride: 1
+    min_low_hz: 0
+    min_band_hz: 0
+  res1_config:
+    in_channels: ${res1_out_channels}
+    out_channels: ${res1_out_channels}
+    num_layers: 2
+    sep_first: true
+  res2_config:
+    in_channels: ${res1_out_channels}
+    out_channels: ${res2_out_channels}
+    num_layers: 4
+    sep_first: false
+  gru_config:
+    input_size: ${res2_out_channels}
+    hidden_size: 1024
+    num_layers: 3
+    batch_first: true

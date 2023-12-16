@@ -1,5 +1,3 @@
-import argparse
-import collections
 import warnings
 import sys
 import os
@@ -10,8 +8,6 @@ import torch
 import logging
 
 import hydra
-from hydra import compose
-from hydra.core.hydra_config import HydraConfig
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
