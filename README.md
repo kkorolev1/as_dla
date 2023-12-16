@@ -61,13 +61,13 @@ $P(bonafide)=0.00012$
 
 https://github.com/kkorolev1/as_dla/assets/72045472/e746d212-035f-42e9-8571-a0c0942caa30
 
-8) as_examples/blinorot_audio2.wav
+7) as_examples/blinorot_audio2.wav
 
 $P(bonafide)=0.00658$
 
 https://github.com/kkorolev1/as_dla/assets/72045472/677f603a-6f69-4a06-8f8e-99298218f923
 
-10) as_examples/blinorot_audio3.wav
+8) as_examples/blinorot_audio3.wav
 
 $P(bonafide)=0.00702$
 
